@@ -1,1 +1,5 @@
 data/DB.db
+newenv/
+venv/
+env/
+
