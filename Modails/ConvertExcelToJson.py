@@ -22,8 +22,8 @@ class ConverterToJson(ctk.CTkScrollableFrame):
         self.first_step_frame=ctk.CTkFrame(self, border_color='white', border_width=1, corner_radius=1)
         self.first_step_frame.pack(fill="x", padx=10, pady=10)
 
-        first_lable=ctk.CTkLabel(self.first_step_frame, text='First Stpe [ Select Excel File]   الخطوة الأولى اختيار ملف اكسل',
-                                     fg_color='#2f4d94',height=35,corner_radius=1,
+        first_lable=ctk.CTkLabel(self.first_step_frame, text='الخطوة الأولى اختيار ملف اكسل',
+                                     fg_color="#3d6bd6",height=35,corner_radius=1,
                                     font=('Segoe UI Semibold',18),anchor='ne', compound='left',justify='left' )
         first_lable.pack(fill="x", padx=5, pady=10)
 
@@ -32,7 +32,7 @@ class ConverterToJson(ctk.CTkScrollableFrame):
         
         self.data_sheet_frame=ctk.CTkFrame(self.first_step_frame, border_width=0.1)
         
-        sheet_name_lable=ctk.CTkLabel(self.data_sheet_frame, text='Select Sheet From File',height=20,corner_radius=1,width=200,
+        sheet_name_lable=ctk.CTkLabel(self.data_sheet_frame, text='اختر ورقة للمعاينة',height=20,corner_radius=1,width=200,
                                     font=('Segoe UI Semibold',14),anchor='ne', compound='left',justify='left' )
         sheet_name_lable.grid(row=0, column=0, pady=2, padx=0)
 
@@ -48,8 +48,8 @@ class ConverterToJson(ctk.CTkScrollableFrame):
 
         self.second_step_frame=ctk.CTkFrame(self, border_color='white', border_width=2, corner_radius=1)
         
-        second_lable=ctk.CTkLabel(self.second_step_frame, text='Second Stpe [ Select Json Type ]  الخطوة الثانية اختر شكل الجيسون',
-                                     fg_color='#2f4d94',height=35,corner_radius=1,
+        second_lable=ctk.CTkLabel(self.second_step_frame, text=' الخطوة الثانية اختر شكل الجيسون',
+                                     fg_color='#3d6bd6',height=35,corner_radius=1,
                                     font=('Segoe UI Semibold',18),anchor='ne', compound='left',justify='left' )
         second_lable.pack(fill="x", padx=5, pady=10)
 

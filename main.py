@@ -1,4 +1,3 @@
-import sys
 import os
 import customtkinter as ctk
 import datetime
@@ -9,7 +8,6 @@ import datetime
 from Modails.ConvertExcelToJson import ConverterToJson
 from Modails.ConvertExcelToPdf import ConverterXlsPdf
 from Modails.FilesTracker import FilesTracker
-
 
 
 
@@ -76,7 +74,7 @@ class APP(ctk.CTk):
         self.exit_app = ctk.CTkButton(
             self.frame_set_page, text='Exit App', width=100, height=30,
             command=self.Exit_con_app, font=("Bahnschrift", 12),
-            corner_radius=5, fg_color="#821D1A"
+            corner_radius=5, fg_color="#AA1A15"
         )
         self.exit_app.pack(pady=10, fill='x', padx=5)
 
@@ -146,8 +144,8 @@ class APP(ctk.CTk):
             self.current_frame=ExcellSplitter(self.root_frame)
 
         if selection =="Syria News":
-            from Modails.SyriaNews import Browser_Result
-            self.current_frame=Browser_Result(self.root_frame)
+            from SyriaNews.Face import news
+            self.current_frame=news(self.root_frame)
      
         if selection =="spellout Arabic Number":
             from Modails.Spellout import SpelloutARNmbers
