@@ -3,11 +3,10 @@ import customtkinter as ctk
 import pandas as pd
 from datetime import datetime
 import shutil
-from tkinter import filedialog, messagebox, Tk, Button, ttk
+from tkinter import filedialog, messagebox, Tk, ttk
 import threading
 from docx import Document  
 import comtypes.client
-import sys
 from PIL import Image
 import urllib.parse
 import xlwings as xw
@@ -18,18 +17,16 @@ import zipfile
 
 from Modails.table import Table as tb
 
+
 class FilesTracker(ctk.CTkScrollableFrame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.main_face()
+        self.main_face() # استدعاء وظيفة بناء الواجهة الرسومية
     
-    def update_buttons_theme(self,*buttons):
-        text_color = "black" if ctk.get_appearance_mode() == "Light" else "white"
-        for button in buttons:
-            button.configure(text_color=text_color)
 
-    
+ 
+    # تحميل الصور من المسار
     def load_image_from_path(self, image_path, size=(20, 20)):
         try:
             if not os.path.exists(image_path):
@@ -41,8 +38,14 @@ class FilesTracker(ctk.CTkScrollableFrame):
         except FileNotFoundError:
             default_image = Image.new("RGB", size, color="gray")
             return ctk.CTkImage(light_image=default_image, dark_image=default_image, size=size)
+    
+    
+    
+    
     #الواجهة
     def main_face(self):
+
+
         self.selector_frame=ctk.CTkFrame(self, height=20,width=500, border_color='white', border_width=1, corner_radius=1)
         self.selector_frame.pack(fill="x", padx=5,pady=5)
 
@@ -51,7 +54,8 @@ class FilesTracker(ctk.CTkScrollableFrame):
 
         self.total_files=ctk.CTkLabel(self.selector_frame, text='',font=('Bahnschrift',17))
 
-        self.export_data_to_excel_file = ctk.CTkButton(self.selector_frame,width=100,fg_color='#54045e', text="Export Tracker To Excel", command=self.export_trac_to_excel)
+        self.export_data_to_excel_file = ctk.CTkButton(self.selector_frame,width=100,fg_color='#54045e',
+                                                    text="Export Tracker To Excel", command=self.export_trac_to_excel)
 
         self.data_sheet_frame=ctk.CTkFrame(self, height=350,width=700, border_color='white', border_width=1, corner_radius=1)
 
@@ -85,7 +89,15 @@ class FilesTracker(ctk.CTkScrollableFrame):
                                               text="Compress Files by zipper", command=self.ziper_files)
         self.zepper_btn.grid(row=0, column=4, padx=5, pady=5)
 
-    # العمليات
+
+
+
+
+
+    # العمليات -------------------
+
+
+    # وظيفة اختيار مجلد 
     def select_folder(self):
         folder_path= filedialog.askdirectory()
         if folder_path:
@@ -101,6 +113,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
             #    return
 
 
+    # تعريف البيانات وتحديث جدول العرض
     def define_data_frame_and_update_data_sheet(self):
             try:
                 if hasattr(self, 'datasheet'):
@@ -108,33 +121,37 @@ class FilesTracker(ctk.CTkScrollableFrame):
                 self.operation_btns.pack_forget()
             except:pass
 
-
             self.data_sheet_frame.pack(fill="x", padx=5,pady=5)
-
             self.operation_btns.pack(fill="x", padx=5,pady=5)
 
             df=self.files_tracker_data
-            self.datasheet =tb(self.data_sheet_frame,df,columns_width=[500,200,150,150,150,600], align_center=[2] ,on_update_callback=self.update_total_files)
+
+            self.datasheet =tb(self.data_sheet_frame,df,columns_width=[500,200,150,150,150,600],
+                                align_center=[2] ,on_update_callback=self.update_total_files)
+            
             self.datasheet.pack(fill="x", padx=5,pady=5)
             self.datasheet.load_data()
             self.df_filtered=df.copy()
-        #except Exception as e:
-        #    messagebox.showerror('Error', f'حصل الخطأ التالي: {e}')
-    
+
+
+    # وظيفة لتحديث عدد الملفات الموجودة بالجدول
     def update_total_files(self,count):
         self.total_files.configure(text=f'Count Files: {count}')
     
+
+    # وظيفة للحصول على معلومات الملفات من المجلد المحددوتخزينها بقاموس
     def get_file_info(self,directory):
         file_info_dict = []
         for root, dirs, files in os.walk(directory):
             for file in files:
                 file_path = os.path.join(root, file)
-                if '$RECYCLE.BIN' in file_path:
+                if '$RECYCLE.BIN' in file_path: # تخطي الملفات المحذوفة من المجلد
                     continue
                 file_size = os.path.getsize(file_path) 
                 file_creation_time = os.path.getctime(file_path) 
                 file_extension = os.path.splitext(file)[1]
                 creation_time_readable = datetime.fromtimestamp(file_creation_time).strftime('%Y-%m-%d %H:%M:%S')
+                
                 file_info_dict.append({
                     'File Name':file,
                     'Folder Name':os.path.basename(root) ,
@@ -145,6 +162,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
         return file_info_dict
     
 
+    # وظيفة لإنشاء جدول في ملف Excel
     def create_table(self,table_name, worksheet):
         from openpyxl.worksheet.table import TableStyleInfo
         table_style ='TableStyleMedium18'
@@ -153,7 +171,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
         showLastColumn=False, showRowStripes=True, showColumnStripes=False)
         worksheet.add_table(table)
 
-
+    # وظيفة لتصدير البيانات إلى ملف Excel
     def export_trac_to_excel(self):
         import subprocess
         ask_folder_target = filedialog.askdirectory(title="اختر المجلد لحفظ ملف Excel")
@@ -171,7 +189,8 @@ class FilesTracker(ctk.CTkScrollableFrame):
             except:pass
             workbook.save(excel_file_result)
             ask_open = messagebox.askyesno('تم', 'تم استخراج التراكر إلى ملف Excel باسم "Results_Tracker_myFiles.xlsx"\nهل تريد فتح الملف؟')
-            if ask_open:
+           
+            if ask_open: # فتح الملف بعد الاستخراجس
                 if os.name == "nt":  
                     os.startfile(excel_file_result)
                 elif os.name == "posix":
@@ -180,6 +199,8 @@ class FilesTracker(ctk.CTkScrollableFrame):
             messagebox.showerror("خطأ", f"حدث خطأ أثناء حفظ الملف:\n{e}")
     
 
+
+    # وظيفة لتحويل حجم الملف الى تنسيق مقروء
     def converter_size(self, size):
         size = int(size)
 
@@ -196,13 +217,12 @@ class FilesTracker(ctk.CTkScrollableFrame):
             return str(size) + ' Bytes'
 
 
-
-
-
+    # وظيفة لإيقاف تنفيذ العمليات الجارية
     def stop_command(self):
         self.stop_command_pool=True
 
 
+    # وظيفة لفتح نافذة التقدم وتشغيل الوظيفة الداخلية ضمن خيط منفصل
     def run_progress_par_with_operation(self,title,target, args):
         self.stop_command_pool=False
         self.progress_window = Tk()
@@ -221,14 +241,15 @@ class FilesTracker(ctk.CTkScrollableFrame):
         font=('Segoe UI',10))
         self.information_progress.pack(fill='x', padx=10, pady=5) 
 
-        stop_button = ctk.CTkButton(self.progress_window, text="Stop", command=self.stop_command, width=75, corner_radius=4, fg_color='red')
+        stop_button = ctk.CTkButton(self.progress_window, text="Stop", 
+                                    command=self.stop_command, width=75, corner_radius=4, fg_color='red')
         stop_button.pack(pady=10)
         threading.Thread(target=target, args=args).start()
         self.progress_window.mainloop()
 
 
 
-
+    # وظيفة اب لنسخ ملفات الى مجلد معين
     def copy_files_to_folder(self):
         target_folder = filedialog.askdirectory(title="Select Target Folder")
         if target_folder:
@@ -236,6 +257,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
             path_list = path_data['Full Path'].to_list()
             self.run_progress_par_with_operation("Copy Progress",self.copy_files_thread,args=(target_folder,path_list) )
 
+    # وظيفة فرعية لنسخ الملفات
     def copy_files_thread(self, target_folder, path_list):
         total_files = len(path_list)
         for index, file_path in enumerate(path_list):
@@ -262,7 +284,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
 
   
 
-
+    # وظيفة لتحويل ملفات Word إلى PDF
     def convert_docs_to_pdf(self):
         path_data = self.datasheet.data.copy()  
         path_data_filtered = path_data[path_data['Extension'].str.lower().isin(['doc', 'docx'])]
@@ -278,9 +300,10 @@ class FilesTracker(ctk.CTkScrollableFrame):
             
             path_list = path_data_filtered['Full Path'].to_list()
             self.run_progress_par_with_operation("Converts Word To PDF",self.convert_doc_to_pdf_thread,args=(target_folder,path_list) )
-           
+
+
+    # وظيفة فرعية لتحويل ملفات Word إلى PDF في خيط منفصل
     def convert_doc_to_pdf_thread(self, target_folder, path_list):
-        
         total_files = len(path_list)
         for index, file_path in enumerate(path_list):
 
@@ -310,6 +333,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
         self.progress_window.destroy()
 
 
+    # وظيفة فرعية لفتح ملف ورد وتحويله الى بي دي اف لاستخدماه بوظيفة التحويل
     def convert_single_doc_to_pdf(self, doc_path, pdf_path):
         try:
             doc_path=str(doc_path).replace("/","\\")
@@ -332,7 +356,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
     
 
 
-
+    # وظيفة اب لتحويل ملفات الاكسل الى بي دي اف
     def conver_xlsx_to_pdf(self):
         path_data = self.datasheet.data.copy()  
         path_data_filtered = path_data[path_data['Extension'].str.lower().isin(['xls', 'xlsx'])]
@@ -350,6 +374,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
             self.run_progress_par_with_operation("Converts Excel Files To PDF",self.convert_xlsx_to_pdf_thread,args=(target_folder,path_list) )
     
 
+    # وظيفة لحساب عدد الأوراق في ملفات Excel
     def count_sheets_in_excel_files(self,file_paths):
         counter=0
         for file_path in file_paths:
@@ -361,6 +386,7 @@ class FilesTracker(ctk.CTkScrollableFrame):
                 continue
         return counter
     
+    # وظيفة تحويل ملفات الاكسل ضمن خيط منفصل مع الواجهة
     def convert_xlsx_to_pdf_thread(self, target_folder, path_list):
         total_files = len(path_list)
         counter_completed_sheet = 0 
@@ -397,13 +423,14 @@ class FilesTracker(ctk.CTkScrollableFrame):
     
 
 
-
+    # وظيفة ضغط الملفات 
     def ziper_files(self):
         path_data_filtered = self.datasheet.data.copy()  
         if path_data_filtered.shape[0]==0:
             messagebox.showinfo("تنويه",f'لا يوجد ملفات ورد في القائمة لضغطها')
             return
         path_list = path_data_filtered['Full Path'].to_list()
+        
         self.ziper_window = ctk.CTkToplevel()
         self.ziper_window.title("Compress Files")
         self.ziper_window.geometry("400x600")
@@ -432,20 +459,25 @@ class FilesTracker(ctk.CTkScrollableFrame):
     
         self.ziper_window.mainloop()
 
+    # وظيفة لتعطيل أزرار الضغط على الملفات المضغوطة
     def zip_btn_off(self):
         self.zip_name_entry.configure(state=ctk.DISABLED)
         self.zip_Compress_btn.configure(state=ctk.DISABLED)
         self.zip_select_target_folder_btn.configure(state=ctk.DISABLED)
+    
+    # وظيفة لتمكين أزرار الضغط على الملفات المضغوطة
     def zip_btn_on(self):
         self.zip_name_entry.configure(state=ctk.NORMAL)
         self.zip_Compress_btn.configure(state=ctk.NORMAL)
         self.zip_select_target_folder_btn.configure(state=ctk.NORMAL)
 
+    # وظيفة لتحديد مجلد لحفظ الملف المضغوط
     def select_target_folder(self):
         self.zepper_target_folder= filedialog.askdirectory(title="اختر المجلد لحفظ الملف المضغوط")
         if self.zepper_target_folder:
             messagebox.showinfo("Done","تم تحديد مجلد المخرجات")
 
+    # وظيفة لضغط الملفات في خيط منفصل
     def ziper_files_thread(self, path_list, name_entry):
         try:
             self.zip_btn_off()

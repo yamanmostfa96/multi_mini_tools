@@ -1,8 +1,7 @@
 import pandas as pd 
 import numpy as np
 import os
-from tkinter import Tk,filedialog, messagebox,Label,IntVar,Radiobutton,Button
-from PIL import Image
+from tkinter import filedialog, messagebox
 import customtkinter as ctk
 import pyperclip
   # إخفاء نافذة tkinter الرئيسية
@@ -22,24 +21,27 @@ class ConverterToJson(ctk.CTkScrollableFrame):
         self.first_step_frame=ctk.CTkFrame(self, border_color='white', border_width=1, corner_radius=1)
         self.first_step_frame.pack(fill="x", padx=10, pady=10)
 
-        first_lable=ctk.CTkLabel(self.first_step_frame, text='الخطوة الأولى اختيار ملف اكسل',
-                                     fg_color="#3d6bd6",height=35,corner_radius=1,
-                                    font=('Segoe UI Semibold',18),anchor='ne', compound='left',justify='left' )
-        first_lable.pack(fill="x", padx=5, pady=10)
+        ctk.CTkLabel(self.first_step_frame, text='الخطوة الأولى اختيار ملف اكسل',
+                    fg_color="#3d6bd6",height=35,corner_radius=1,
+                    font=('Segoe UI Semibold',18),anchor='ne', compound='left',justify='left' ).pack(fill="x", padx=5, pady=10)
 
-        self.select_file_button = ctk.CTkButton(self.first_step_frame, text="Browse Excel File",font=('Segoe UI Semibold',14), command=self.select_excel_file, width=300, height=30)
-        self.select_file_button.pack(pady=10)
+
+        BrowseExcel_btn=ctk.CTkButton(self.first_step_frame, text="Browse Excel File",font=('Segoe UI Semibold',14),
+                     command=self.select_excel_file, width=300, height=30)
+        BrowseExcel_btn.pack(pady=10)
         
+
         self.data_sheet_frame=ctk.CTkFrame(self.first_step_frame, border_width=0.1)
         
-        sheet_name_lable=ctk.CTkLabel(self.data_sheet_frame, text='اختر ورقة للمعاينة',height=20,corner_radius=1,width=200,
-                                    font=('Segoe UI Semibold',14),anchor='ne', compound='left',justify='left' )
-        sheet_name_lable.grid(row=0, column=0, pady=2, padx=0)
+        ctk.CTkLabel(self.data_sheet_frame, text='اختر ورقة للمعاينة',
+                     height=20,corner_radius=1,width=200,
+                     font=('Segoe UI Semibold',14),anchor='ne',
+                     compound='left',justify='left' ).grid(row=0, column=0, pady=2, padx=0)
+
 
         self.sheet_name = ctk.CTkComboBox(self.data_sheet_frame, values=[], width=200,justify='left',
                              command=self.define_data_frame_and_update_data_sheet)
         self.sheet_name.grid(row=0, column=1, pady=2)
-
 
         self.datasheet = TableSheet(self.data_sheet_frame, data=(), width=1000, hight=350, header=[], column_widths=[100], align_center=[0])
         
@@ -48,10 +50,9 @@ class ConverterToJson(ctk.CTkScrollableFrame):
 
         self.second_step_frame=ctk.CTkFrame(self, border_color='white', border_width=2, corner_radius=1)
         
-        second_lable=ctk.CTkLabel(self.second_step_frame, text=' الخطوة الثانية اختر شكل الجيسون',
-                                     fg_color='#3d6bd6',height=35,corner_radius=1,
-                                    font=('Segoe UI Semibold',18),anchor='ne', compound='left',justify='left' )
-        second_lable.pack(fill="x", padx=5, pady=10)
+        ctk.CTkLabel(self.second_step_frame, text=' الخطوة الثانية اختر شكل الجيسون',
+                    fg_color='#3d6bd6',height=35,corner_radius=1,
+                    font=('Segoe UI Semibold',18),anchor='ne', compound='left',justify='left' ).pack(fill="x", padx=5, pady=10)
 
         self.optionmenu = ctk.CTkComboBox(self.second_step_frame, values=["1.Liner Key, String Values", "2.Liner Key, Defined Values",
                                                                             "3.Liner Rows, String Values","4.Liner Rows, Defined Values,"],
@@ -63,17 +64,16 @@ class ConverterToJson(ctk.CTkScrollableFrame):
         self.frame_json_read=ctk.CTkFrame(self.second_step_frame, fg_color='#28282a')
         self.frame_json_read.pack(fill="x", padx=5, pady=2)
 
-        self.copy_button = ctk.CTkButton(self.frame_json_read,text='≡ Copy To Clipbord',font=('arial',11),
+        # زر لنسخ الجيسون الى الحافظة
+        ctk.CTkButton(self.frame_json_read,text='≡ Copy To Clipbord',font=('arial',11),
                                      bg_color='transparent', command=self.copy_to_clipboard, width=150, height=30,
-                                     corner_radius=5)
-        self.copy_button.grid(row=0,column=0)
-
-        self.extract_to_json = ctk.CTkButton(self.frame_json_read,text='↓ Extract To Json',font=('arial',11),
+                                     corner_radius=5).grid(row=0,column=0)
+        # زر لاستخراج الجيسون لوكال
+        ctk.CTkButton(self.frame_json_read,text='↓ Extract To Json',font=('arial',11),
                                      bg_color='transparent', command=self.Extract_to_json_file, width=150, height=30,
-                                     corner_radius=5)
-        self.extract_to_json.grid(row=0, column=1)
+                                     corner_radius=5).grid(row=0, column=1)
 
-
+        # مربع نصي لعرض الجيسون
         self.json_reader = ctk.CTkTextbox(self.frame_json_read,width=1000, height=200,text_color='white', bg_color='#28282a', fg_color='#28282a', font=('tohama', 12))
         self.json_reader.grid(row=1, column=0, columnspan=10)
         self.json_reader.insert("end", "Here Is Json...")
@@ -82,10 +82,20 @@ class ConverterToJson(ctk.CTkScrollableFrame):
 
 
 
-    #OPERATION METHODS
+    #OPERATION METHODS  الدوال والعمليات
 
+    # تعريف إطار البيانات وتحديث ورقة البيانات
     def define_data_frame_and_update_data_sheet(self, sheet_name):
         try:
+            """
+            1-قراءة ملف الاكسل بواسطة باندا 
+            2- حذف الصفوف الفارغة
+            3- استبدال القيم الفارغة
+            4- تحويل البيانات إلى قائمة
+            5- تعيين رأس الجدول في ورقة البيانات
+            6- تحميل البيانات في ورقة البيانات لعرضها على الشاشة
+            
+            """
             self.general_data_frame = pd.read_excel(self.filepath, sheet_name=sheet_name, dtype=str)
             self.general_data_frame.dropna(how='all')
             self.general_data_frame.replace(pd.NA,'', inplace=True)
@@ -94,40 +104,46 @@ class ConverterToJson(ctk.CTkScrollableFrame):
             self.datasheet.load_data(data)
             self.convert_json_reader()
 
-        except Exception as e:
+        except Exception as e: # اكسبشن لعرض اي خطأ في هذه المرحلة برسالة على الشاشة
             messagebox.showerror('Error', f'حصل الخطأ التالي: {e}')
 
-
+    # وظيفة لاختيار ملف الاكسل للعمل
     def select_excel_file(self):
         self.filepath = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
         if self.filepath:
             try:
-                self.data_sheet_frame.pack(fill="x", padx=5, pady=10)
-                self.datasheet.grid(row=2, column=0,padx=10, columnspan=2)
-                self.second_step_frame.pack(fill="x", padx=10, pady=10)
-
-                self.sheet_names = pd.ExcelFile(self.filepath).sheet_names
-                self.sheet_name.configure(values=self.sheet_names)
-                self.sheet_name.set(self.sheet_names[0])
-                self.define_data_frame_and_update_data_sheet(self.sheet_name.get())
+                """
+                1- عرض فريم الجدول على الشاشة
+                2-عرض جدول في الفريم
+                3-اظهار فريم المرحلة التالية
+                4- استخراج اسماء الورقات من ملف الاكسل المحدد
+                5- وضع اسماء الورقات في بوكس الورقات لتحديد ورقة منه
+                6- تعيين الورقة الاولى بالملف كافتراضية
+                7- استدعاء وظيفة تعريف إطار البيانات وتحديث ورقة البيانات
+                """
+                self.data_sheet_frame.pack(fill="x", padx=5, pady=10) #1
+                self.datasheet.grid(row=2, column=0,padx=10, columnspan=2) #2
+                self.second_step_frame.pack(fill="x", padx=10, pady=10) #3
+                self.sheet_names = pd.ExcelFile(self.filepath).sheet_names #4
+                self.sheet_name.configure(values=self.sheet_names) #5
+                self.sheet_name.set(self.sheet_names[0]) #6
+                self.define_data_frame_and_update_data_sheet(self.sheet_name.get()) #7
             except Exception as e:
                 messagebox.showerror('Error', f'حصل الخطأ التالي: {e}')
 
     
 
-
+    # وظيفة لتحويل إطار البيانات إلى JSON
     def convert_data_frame_to_json(self):
-        indent = self.optionmenu.get()
+        indent = self.optionmenu.get() # الحصول على نوع الجيسون المراد التحويل اليه
         if '2' in indent or '4' in indent:
             row_data = pd.read_excel(self.filepath, sheet_name=self.sheet_name.get())
         else:
             row_data = pd.read_excel(self.filepath, sheet_name=self.sheet_name.get(), dtype=str)
         
-        
         row_data.replace("", np.nan, inplace=True)
         row_data.dropna(how='all', inplace=True)
         row_data.dropna(axis=1, how='all', inplace=True)
- 
         
         json_data = ""
         if '1' in indent or '2' in indent:
@@ -146,7 +162,8 @@ class ConverterToJson(ctk.CTkScrollableFrame):
         return json_data.replace('null,','"",')
           
 
-
+    # وظيفة لتحويل إطار البيانات إلى JSON وعرضه في مربع النص
+    # هذه الوظيفة تستدعي عند تغيير الاختيار في القائمة المنسدلة
     def convert_json_reader(self, *args):
         json_data = self.convert_data_frame_to_json()
         self.json_reader.configure(state='normal')
@@ -155,13 +172,13 @@ class ConverterToJson(ctk.CTkScrollableFrame):
         self.json_reader.yview_moveto(0)
         self.json_reader.configure(state='disabled')
 
-
+    # وظيفة لنسخ الجيسون إلى الحافظة
     def copy_to_clipboard(self):
         text_to_copy = self.json_reader.get("1.0", "end-1c")
         pyperclip.copy(text_to_copy)
         messagebox.showinfo('Done','Json Coped To Clipbord')
 
-    
+    # وظيفة لاستخراج الجيسون إلى ملف محلي
     def Extract_to_json_file(self):
         folder_path = filedialog.askdirectory()
         if folder_path:

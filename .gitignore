@@ -1,5 +1,6 @@
-data/DB.db
+Data/DB.db
 newenv/
 venv/
 env/
+Outputs/
 
