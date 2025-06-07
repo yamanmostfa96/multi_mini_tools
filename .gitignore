@@ -3,4 +3,5 @@ newenv/
 venv/
 env/
 Outputs/
+tester.py
 

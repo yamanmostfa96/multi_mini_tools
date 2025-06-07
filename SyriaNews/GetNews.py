@@ -9,10 +9,15 @@ from SyriaNews.DbOperations import SQL_DB
 from SyriaNews.DateChecker import CheckDate
 
 
+"""
+كلاس جرف الاخبار من كل موقع على حداه
+
+"""
 
 class  GET_NEWS_FROM_WEBSITES(SoupOps):
-    def __init__(self,settings):
+    def __init__(self,settings): 
         self.settings=settings
+
         self.web_data = self.settings.get('web_data')
         self.web_id=self.web_data['WebID'].iloc[0]
         last_days=self.web_data['period'].iloc[0]
@@ -23,17 +28,11 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
         self.url_ids= self.sql_db.get_NewsUrl_from_db(self.web_id)
         self.update_traker_and_data=self.settings.get('update_traker_and_data', lambda: None)
 
-    def extract_date_from_url(self,url):
-        year_pattern = r'20\d{2}'
-        match = re.search(year_pattern, url)
-        if match:
-            year = match.group()
-            date = url[match.end():match.end()+6]
-            return f'{year}{date}'
-        else:
-            return None
-    
 
+    
+    
+    # موقع الحل نت
+    
     def Alhal_net(self):
         for _,row in self.web_data.iterrows():
             page_index=0
@@ -55,6 +54,7 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
   
                     for article in soup.find_all('a'):
                         if self.after_stop_flag():return
+                        
                         link = article.find('a', href=True)['href']
                         link = unquote(link).strip().lower()
                         link=str(link).replace('\\','').replace('../','').replace(' ','').replace('"','')
@@ -66,7 +66,7 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
                             self.sql_db.update_into_results(self.UUID,link)
                             continue
                         if self.after_stop_flag():return
-                        posted_date = self.extract_date_from_url(link)
+                        posted_date = self.DateChecker.extract_date_from_url(link)
                         published_date = datetime.strptime(posted_date, "%Y/%m/%d").date()
                         if self.DateChecker.check_brake_scriping(published_date=published_date): break
                         if self.DateChecker.check_article_date(published_date=published_date): continue
@@ -355,7 +355,7 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
                                 published_date =  article.find('div', class_='item-content').find_all('samp')[-1].text
                                 published_date = published_date.replace(', ','-')
                             except: published_date = None
-                            published_date =self.DateChecker.convert_arabic_date_enab(published_date) 
+                            published_date =self.DateChecker.convert_text_date(published_date,'m-d-y') 
                             title = article.find('h3').text.strip()
                             link = article.find('div', class_='item-content').find('a', href=True)['href']
                         link = f'{unquote(link).strip().lower()}'
@@ -416,7 +416,7 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
                             continue
                         date_tag = article.find('div', class_='date').find_all('a', title=True)[-1]
                         published_date = date_tag.text.strip()
-                        published_date = self.DateChecker.convert_arabic_date(published_date)
+                        published_date = self.DateChecker.convert_text_date(published_date,'d-m-y')
                         if self.DateChecker.check_brake_scriping(published_date):break
                         if self.DateChecker.check_article_date(published_date):continue
                         title = article.find('h3').find('a').text.strip() 
@@ -463,7 +463,7 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
                         if link in self.url_ids:
                             self.sql_db.update_into_results(self.UUID,link)
                             continue
-                        published_date = datetime.strptime(self.extract_date_from_url(link), "%Y-%m-%d").date()
+                        published_date = datetime.strptime(self.DateChecker.extract_date_from_url(link), "%Y-%m-%d").date()
                         if self.DateChecker.check_brake_scriping(published_date):break
                         if self.DateChecker.check_article_date(published_date):continue
                         title= article.find('h2', class_='item-title').find('a').text.strip()
@@ -619,7 +619,7 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
 
                         title = article.find("div", class_="field--name-node-title").find("a").text.strip()
                         published_date = article.find("div", class_="field--name-field-published-date").text.strip()
-                        published_date = self.DateChecker.convert_arabic_date(published_date)
+                        published_date = self.DateChecker.convert_text_date(published_date,'d-m-y')
                         if self.DateChecker.check_brake_scriping(published_date):break
                         if self.DateChecker.check_article_date(published_date):continue
                         
@@ -671,7 +671,7 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
                         published_date = article.find("span", class_="date")
                         published_date = published_date.text.strip().replace("،","") if published_date else None
 
-                        published_date = self.DateChecker.convert_arabic_date_horanfree(published_date) 
+                        published_date = self.DateChecker.convert_text_date(published_date,'d-m-y') 
     
                         if self.DateChecker.check_brake_scriping(published_date):break
                         if self.DateChecker.check_article_date(published_date):continue
@@ -838,7 +838,7 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
                         link = a_tag['href']
                         link= unquote(link).strip().lower()
                         date = soup.find('span', class_='elementor-post-date').text.strip().replace(",","")
-                        published_date=self.DateChecker.convert_arabic_date_akh(date)
+                        published_date=self.DateChecker.convert_text_date(date,'m-d-y')
 
                         if link in link_cheacker:continue
                         link_cheacker.append(link)

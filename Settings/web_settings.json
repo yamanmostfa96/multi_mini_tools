@@ -9,7 +9,7 @@
         "CategoryAR":"اقتصاد",
         "CategoryURL":"https:\/\/halabtodaytv.net\/archives\/category\/news\/economynews",
         "CategoryURL_Web":"https:\/\/halabtodaytv.net\/archives\/category\/news\/economynews",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -61,7 +61,7 @@
         "CategoryAR":"سياسة",
         "CategoryURL":"https:\/\/www.syria.tv\/\/أخبار-سوريا\/سياسية",
         "CategoryURL_Web":"https:\/\/www.syria.tv\/\/أخبار-سوريا\/سياسية",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -74,7 +74,7 @@
         "CategoryAR":"محلية",
         "CategoryURL":"https:\/\/www.syria.tv\/أخبار-سوريا\/محلية",
         "CategoryURL_Web":"https:\/\/www.syria.tv\/أخبار-سوريا\/محلية",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -87,7 +87,7 @@
         "CategoryAR":"تحقيقات وتقارير",
         "CategoryURL":"https:\/\/www.syria.tv\/تحقيقات_وتقارير",
         "CategoryURL_Web":"https:\/\/www.syria.tv\/تحقيقات_وتقارير",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -204,7 +204,7 @@
         "CategoryAR":"اقتصاد",
         "CategoryURL":"https:\/\/almodon.com\/getallauthorarticles\/#number#\/hashid",
         "CategoryURL_Web":"https:\/\/almodon.com\/getallauthorarticles\/",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -308,11 +308,11 @@
         "CategoryAR":"اقتصاد",
         "CategoryURL":"https:\/\/www.athrpress.com\/category\/اقتصاد\/",
         "CategoryURL_Web":"https:\/\/www.athrpress.com\/category\/اقتصاد\/",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
-        "ID":70,
+        "ID":20025,
         "WebID":7,
         "WebSiteURL":"https:\/\/www.athrpress.com",
         "WebSiteNameEN":"Athrpress",
@@ -321,7 +321,7 @@
         "CategoryAR":"محليات",
         "CategoryURL":"https:\/\/www.athrpress.com\/category\/محليات\/",
         "CategoryURL_Web":"https:\/\/www.athrpress.com\/category\/محليات\/",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -412,7 +412,7 @@
         "CategoryAR":"سوريا والعالم",
         "CategoryURL":"https:\/\/sana.sy\/?cat=106",
         "CategoryURL_Web":"https:\/\/sana.sy\/?cat=106",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -425,7 +425,7 @@
         "CategoryAR":"محلي",
         "CategoryURL":"https:\/\/sana.sy\/?cat=115",
         "CategoryURL_Web":"https:\/\/sana.sy\/?cat=115",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -438,7 +438,7 @@
         "CategoryAR":"اقتصاد",
         "CategoryURL":"https:\/\/sana.sy\/?cat=122",
         "CategoryURL_Web":"https:\/\/sana.sy\/?cat=122",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -451,7 +451,7 @@
         "CategoryAR":"اخبار حلب",
         "CategoryURL":"https:\/\/sana.sy\/?cat=34",
         "CategoryURL_Web":"https:\/\/sana.sy\/?cat=34",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -464,7 +464,7 @@
         "CategoryAR":"اخبار اللاذقية",
         "CategoryURL":"https:\/\/sana.sy\/?cat=38",
         "CategoryURL_Web":"https:\/\/sana.sy\/?cat=38",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -477,7 +477,7 @@
         "CategoryAR":"اخبار دمشق",
         "CategoryURL":"https:\/\/sana.sy\/?cat=29",
         "CategoryURL_Web":"https:\/\/sana.sy\/?cat=29",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -490,7 +490,7 @@
         "CategoryAR":"ثقافة",
         "CategoryURL":"https:\/\/sana.sy\/?cat=8",
         "CategoryURL_Web":"https:\/\/sana.sy\/?cat=8",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -555,7 +555,7 @@
         "CategoryAR":"تقارير ميدانية",
         "CategoryURL":"https:\/\/shaam.org\/reports\/battleground-reports?page=",
         "CategoryURL_Web":"https:\/\/shaam.org\/reports\/battleground-reports?",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -568,7 +568,7 @@
         "CategoryAR":"تقارير اقتصادية",
         "CategoryURL":"https:\/\/shaam.org\/reports\/economic-reports?page=",
         "CategoryURL_Web":"https:\/\/shaam.org\/reports\/economic-reports?",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -581,7 +581,7 @@
         "CategoryAR":"تقارير خاصة",
         "CategoryURL":"https:\/\/shaam.org\/reports\/special-reports?page=",
         "CategoryURL_Web":"https:\/\/shaam.org\/reports\/special-reports",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -594,7 +594,7 @@
         "CategoryAR":"أخبار محلية",
         "CategoryURL":"https:\/\/shaam.org\/news\/syria-news?page=",
         "CategoryURL_Web":"https:\/\/shaam.org\/news\/syria-news",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -607,7 +607,7 @@
         "CategoryAR":"أخبار عربية",
         "CategoryURL":"https:\/\/shaam.org\/news\/arabic-news?page=",
         "CategoryURL_Web":"https:\/\/shaam.org\/news\/arabic-news",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -620,7 +620,7 @@
         "CategoryAR":"أخبار دولية",
         "CategoryURL":"https:\/\/shaam.org\/news\/international-news?page=",
         "CategoryURL_Web":"https:\/\/shaam.org\/news\/international-news",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -646,7 +646,7 @@
         "CategoryAR":"خدمات محلية",
         "CategoryURL":"https:\/\/www.enabbaladi.net\/category\/services\/local-services\/page\/",
         "CategoryURL_Web":"https:\/\/www.enabbaladi.net\/category\/services\/local-services",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -659,7 +659,7 @@
         "CategoryAR":"سياسة محلي",
         "CategoryURL":"https:\/\/www.enabbaladi.net\/category\/politics\/syria\/page\/",
         "CategoryURL_Web":"https:\/\/www.enabbaladi.net\/category\/politics\/syria",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -711,7 +711,7 @@
         "CategoryAR":"تحقيقات",
         "CategoryURL":"https:\/\/www.enabbaladi.net\/category\/indepth\/offline\/page\/",
         "CategoryURL_Web":"https:\/\/www.enabbaladi.net\/category\/indepth\/offline",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -776,7 +776,7 @@
         "CategoryAR":"سياسة",
         "CategoryURL":"https:\/\/kassioun.org\/politics?start=",
         "CategoryURL_Web":"https:\/\/kassioun.org\/politics",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -828,7 +828,7 @@
         "CategoryAR":"سياسة",
         "CategoryURL":"https:\/\/7al.net\/wp-admin\/admin-ajax.php?action=alm_get_posts&query_type=standard&id=&post_id=31960&slug=%25d8%25b3%25d9%258a%25d8%25a7%25d8%25b3%25d8%25a9&canonical_url=https%253A%252F%252F7al.net%252F%2525d8%2525b3%2525d9%25258a%2525d8%2525a7%2525d8%2525b3%2525d8%2525a9%252F&posts_per_page=15&page=#number#&offset=0&post_type=(post,page,haayz)&repeater=default&seo_start_page=1&theme_repeater=alm_block_sml.php&post_format=standard&category__and=31960&order=DESC&orderby=date",
         "CategoryURL_Web":"https:\/\/7al.net\/economy\/",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -841,7 +841,7 @@
         "CategoryAR":"أخبار محلية",
         "CategoryURL":"https:\/\/www.horanfree.com\/archives\/category\/news\/page\/",
         "CategoryURL_Web":"https:\/\/www.horanfree.com\/archives\/category\/news\/",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -854,7 +854,7 @@
         "CategoryAR":"تقارير ميدانية",
         "CategoryURL":"https:\/\/www.horanfree.com\/archives\/category\/تقارير-ميدانية\/page\/",
         "CategoryURL_Web":"ttps:\/\/www.horanfree.com\/archives\/category\/تقارير-ميدانية\/",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -867,7 +867,7 @@
         "CategoryAR":"تقارير حقوقية",
         "CategoryURL":"https:\/\/www.horanfree.com\/archives\/category\/تقارير-حقوقية\/page\/",
         "CategoryURL_Web":"ttps:\/\/www.horanfree.com\/archives\/category\/تقارير-ميدانية\/",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {
@@ -880,7 +880,7 @@
         "CategoryAR":"محلي",
         "CategoryURL":"https:\/\/syria.news\/archives\/category\/محليات\/page\/",
         "CategoryURL_Web":"https:\/\/syria.news\/archives\/category\/محليات\/",
-        "prefer":1,
+        "prefer":0,
         "period":5
     },
     {

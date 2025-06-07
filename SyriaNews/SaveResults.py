@@ -56,9 +56,9 @@ class SaveResults_Excel:
                 showLastColumn=False, showRowStripes=True, showColumnStripes=False)
                 worksheet.add_table(table)
 
-        def save_result(self, dataframe=[]):
+        def save_result(self, dataframe=[], folder_path=None):
             empty_df = pd.DataFrame()
-            self.son_folder = f'Outputs\Result {self.date_time}'
+            self.son_folder = f'{folder_path}\Result {self.date_time}'
             excel_file_result = f'{self.son_folder}\\Result File.xlsx'
             
             if not Path(excel_file_result).exists():
@@ -77,6 +77,13 @@ class SaveResults_Excel:
                 except:
                     pass
                 workbook.save(excel_file_result)
+
+                ask_open = messagebox.askyesno('تم', 'هل تريد فتح الملف؟')
+           
+                if ask_open: # فتح الملف 
+                    if os.name == "nt":  
+                        os.startfile(excel_file_result)
+                        
             except Exception as e:
                 print(e)
                 messagebox.showerror('حدث خطأ غير متوقع اثناء حفظ المخرجات',f'\n{e}\n')
