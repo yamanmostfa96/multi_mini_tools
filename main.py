@@ -5,9 +5,9 @@ from PIL import Image
 import datetime
 
 
-from Modails.ConvertExcelToJson import ConverterToJson
-from Modails.ConvertExcelToPdf import ConverterXlsPdf
-from Modails.FilesTracker import FilesTracker
+
+
+
 
 
 
@@ -129,16 +129,19 @@ class APP(ctk.CTk): # واجهة التطبيق الرئيسية
             self.current_frame.pack_forget()
 
         if selection == "Excel to JSON":
+            from Modules.ConvertExcelToJson import ConverterToJson
             self.current_frame = ConverterToJson(self.root_frame)
 
         if selection =="Excel Folder to PDF":
+            from Modules.ConvertExcelToPdf import ConverterXlsPdf
             self.current_frame = ConverterXlsPdf(self.root_frame)
 
         if selection =="Track my Files":
+            from Modules.FilesTracker import FilesTracker
             self.current_frame=FilesTracker(self.root_frame)
 
         if selection=='Split Excel File':
-            from Modails.ExcelDfSplitter import ExcellSplitter
+            from Modules.ExcelDfSplitter import ExcellSplitter
             self.current_frame=ExcellSplitter(self.root_frame)
 
         if selection =="Syria News":
@@ -146,7 +149,7 @@ class APP(ctk.CTk): # واجهة التطبيق الرئيسية
             self.current_frame=news(self.root_frame)
      
         """if selection =="spellout Arabic Number":
-            from Modails.Spellout import SpelloutARNmbers
+            from Modules.Spellout import SpelloutARNmbers
             self.current_frame=SpelloutARNmbers(self.root_frame)
         """
 

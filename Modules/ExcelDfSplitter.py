@@ -7,7 +7,7 @@ from tkinter import filedialog, messagebox, Toplevel, Button, ttk
 from openpyxl.worksheet.table import TableStyleInfo
 
 
-from Modails.table import Table as tb # استدعاء كلاس اظهار الجدول على الشاشة
+from Modules.table import Table as tb # استدعاء كلاس اظهار الجدول على الشاشة
 
 
 class ExcellSplitter(ctk.CTkScrollableFrame):

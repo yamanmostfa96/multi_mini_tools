@@ -4,4 +4,8 @@ venv/
 env/
 Outputs/
 tester.py
+Modules/__pycache__
+SyriaNews/__pycache__
+*.pyc
+**/__pycache__/
 

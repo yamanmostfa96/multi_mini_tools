@@ -12,21 +12,31 @@ from SyriaNews.DateChecker import CheckDate
 """
 كلاس جرف الاخبار من كل موقع على حداه
 
+تختلف الية جرف البيانات بنسب متفاوتة بين كل موقع واخر
+لذلك تم تعيين وظيفة خاصة لكل موقع لتجنب التعقيد الزائد وعمليات الفحص المختلفة والكثيرة
+
 """
 
 class  GET_NEWS_FROM_WEBSITES(SoupOps):
     def __init__(self,settings): 
         self.settings=settings
 
-        self.web_data = self.settings.get('web_data')
-        self.web_id=self.web_data['WebID'].iloc[0]
-        last_days=self.web_data['period'].iloc[0]
-        self.sql_db=SQL_DB()
-        self.DateChecker=CheckDate(last_days)
-        self.UUID=self.settings.get('UUID')
-        self.after_stop_flag = self.settings.get('after_stop_flag', lambda: None)
-        self.url_ids= self.sql_db.get_NewsUrl_from_db(self.web_id)
-        self.update_traker_and_data=self.settings.get('update_traker_and_data', lambda: None)
+        """
+        يتم تمرير الاعدادات اللازمة الى هذا الاكلاس عند استخدامه ضمن متغير جيسون
+        يحمل اعدادت مثل داتا فريم لبيانات جرف الموقع
+        بيانات ومتغيرات اخرى قد تكون لازمة
+        وظائف مبينة ضمن كلاس الواجهة يتم تمريرها هنا ايضا
+        """
+
+        self.web_data = self.settings.get('web_data') #web_data تحمل بيانات اعدادات الموقع والراوابط والمعرفات
+        self.web_id=self.web_data['WebID'].iloc[0] # معرف الموقع الاخباري من web_data
+        last_days=self.web_data['period'].iloc[0] # الحد الاقصى للجرف
+        self.sql_db=SQL_DB() # تعيين الاتصال بقاعدة البيانات وتجهيزها
+        self.DateChecker=CheckDate(last_days) # تعيين كلاس التحقق من التواريخ
+        self.UUID=self.settings.get('UUID') # الحصول على معرف اب لعملية الجرف الكاملة
+        self.after_stop_flag = self.settings.get('after_stop_flag', lambda: None) # تعريف وظيفة التحقق من ايقاف العملية وتحميلها ضمن متغير
+        self.url_ids= self.sql_db.get_NewsUrl_from_db(self.web_id) # الحصول قائمة روابط الاخبار للموقع وتعريفها ضمن قائمة
+        self.update_traker_and_data=self.settings.get('update_traker_and_data', lambda: None) # تحميل وظيفة تحديث التراكر وتحديث اضافة الاخبار الجديدة الى الجدول على الواجهة
 
 
     
@@ -34,16 +44,34 @@ class  GET_NEWS_FROM_WEBSITES(SoupOps):
     # موقع الحل نت
     
     def Alhal_net(self):
+        """
+        1- لوب يمر بجميع الفئات المحددة ضمن هذا الموقع
+        2- تعيين بعض المتغيرات اللازمة
+        3- حلقة مفتوحة ضمن 15 محاولة خاطئة فقط للمرور بكل صفحة 
+        4- الحصول على هيكل الصفحة واستخراج الروابط والتحقق من ان الرابط جديد غير مجروف سابقا
+        5-في حال تم جرفه سابقا يتم تحديث معرف العملية الاب وتاريخ التحديث ثم الاستمرار للرابط التالي
+        6- استخراج التاريخ والتأكد من ان التاريخ ضمن العينة المطلوبة
+        7- تعيين بيانات الخبر ضمن تيوبل
+        8- حقن البيانات على قاعدة البيانات
+        9- اظهار بيانات الخبر الجديد على الشاشة مباشرة ضمن الجدول
+        10-الخروج من حلقة وايل الخاصة بالفئة عند الوصول للتاريخ الادنى المراد جرفه
+
+        # وظيفة get_soup
+        تم تمريرها ضمن كلاس SoupOps
+        
+        
+        """
         for _,row in self.web_data.iterrows():
-            page_index=0
-            id=row['ID']
-            CategoryEN=row['CategoryEN']
-            CategoryURL=row['CategoryURL']
-            cat_='7al'
+            page_index=0 # ترقيم الصفحة يبدء من صفر
+            id=row['ID'] # الحصول على معرف القسم الاخباري للموقع
+            CategoryEN=row['CategoryEN'] # الحصول على اسم القسم
+            CategoryURL=row['CategoryURL'] # رابط القسم
+            cat_='7al' # متغير مخصص فقط لهذا الموقع
+            
             if CategoryEN=='Economic':
                 cat_='economy'
             count_try=0
-            link_cheacker=[]
+            link_cheacker=[] #قائمة لتخزين الروابط التي مررنا عليها لتجنب التكرار
             published_date=None
             while True and count_try<15:
                 try:

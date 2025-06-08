@@ -15,7 +15,8 @@ class SoupOps:
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
                 }
-        
+
+    # وظيفة استخراج محتوى الخبر من رابط خبر  
     def extract_articale_contain(self,url_link):
         full_text =[]
         content_text=''
@@ -35,7 +36,7 @@ class SoupOps:
              content_text='خطأ في جلب المحتوى'
         return content_text
 
-
+    # وظيفة للحصول على المحتوى والعنوان من رابط خبر
     def get_title_and_contains(self,url_link):
         full_text =[]
         content_text=''
@@ -57,13 +58,14 @@ class SoupOps:
              content_text='خطأ في جلب المحتوى'
         return content_text,title
 
-         
+    # وظيفة للحصول على هيكل صفحة الويب 
     def get_soup(self,url,title):
         time.sleep(0.2)
         response = requests.get(url, headers=header_)
         return BeautifulSoup(response.content, title)
 
 
+    # وظيفة تحويل صفحة ويب الى ملف بي دي اف 
     def  convert_html_to_pdf(self, link,title, target):
         title=str(title).replace('\\','').replace('/','').replace(':','')
         from PyQt5.QtGui import QTextDocument

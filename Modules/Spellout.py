@@ -4,7 +4,7 @@ import customtkinter as ctk
 import pandas as pd
 import openpyxl as px
 
-from Modails.TkSheetTable import TableSheet
+from Modules.TkSheetTable import TableSheet
 
 
 

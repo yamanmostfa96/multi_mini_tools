@@ -15,7 +15,7 @@ import zipfile
 
 
 
-from Modails.table import Table as tb
+from Modules.table import Table as tb
 
 
 class FilesTracker(ctk.CTkScrollableFrame):

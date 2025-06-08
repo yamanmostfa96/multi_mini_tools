@@ -6,7 +6,7 @@ import customtkinter as ctk
 import pyperclip
   # إخفاء نافذة tkinter الرئيسية
 
-from Modails.TkSheetTable import TableSheet
+from Modules.TkSheetTable import TableSheet
 
 
 class ConverterToJson(ctk.CTkScrollableFrame):

@@ -9,6 +9,8 @@ from datetime import datetime
 
 مع بعض الاوامر اللازمة في الميزات كالحذف والاضافة والاستعلام
 
+تعمد على sqlite 
+
 """
 
 class SQL_DB:

@@ -6,14 +6,24 @@ from PIL import Image
 
 
 ## ________ BEGIN: resource ________::::::
-       
+"""
+كلاس تعيين المصادر وتخزينها ضمن ملف الاعداداتٍ
+
+
+"""
+
+
 class Resource:
     def __init__(self):
-        self.json_path = 'Settings/web_settings.json'  
-        self.my_resource = pd.read_json(self.json_path)
+        self.json_path = 'Settings/web_settings.json'  # مسار داتاست لحفظ التغيرات على الاعدادت
+        self.my_resource = pd.read_json(self.json_path) # قراءة الاعداتا كداتا فريم
         self.face_sorce()
 
+
+
+    # وظيفة بناء الواجهة التفاعلية
     def face_sorce(self):
+
         self.select_resource = ctk.CTkToplevel()
         self.select_resource.title("اختيار المصادر")
         self.select_resource.geometry("500x700")  
@@ -42,6 +52,7 @@ class Resource:
         self.web_checkboxes = {}
         self.site_name_var = {}
 
+
         def update_site_status(site):
             all_checked = all(var.get() for var in self.web_checkboxes[site].values())
             any_checked = any(var.get() for var in self.web_checkboxes[site].values())
@@ -53,6 +64,8 @@ class Resource:
                 category_var.set(is_checked)
 
         row_index = 0
+
+        # حلقة لبناء شيكبوكس لكل موقع
         for _, row in self.my_resource.iterrows():
             site_name_EN = row["WebSiteNameEN"]
             site_name_AR = row["WebSiteNameAR"]
@@ -94,7 +107,7 @@ class Resource:
 
             row_index += 1
 
-
+    #وظيفة لتحميل صورة من مسارها بشكل صحيح
     def load_icone_from_path(self,path_, size=(20, 20)):
         try:
             if not os.path.exists(path_):
@@ -109,7 +122,7 @@ class Resource:
             return ctk.CTkImage(light_image=default_icone, size=size)  
 
 
-
+    # وظيفة لتحديث التفضيلات الجديدة
     def save_preferences(self):
         selected_period = self.period_var.get()
         if '2' in selected_period:

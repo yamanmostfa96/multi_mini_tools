@@ -9,21 +9,50 @@ from tkinter import messagebox
 import time
 
 
+"""
+كلاس لحفظ المخرجات الى ملف اكسل
+
+
+"""
 
 class SaveResults_Excel:
         def __init__(self):
             self.date_time= datetime.now().strftime("%d-%m-%Y")
-        # ازالة ورقة من ملف الاكسل
+        
+        
+        
+        # وظيفة لحذف ورقة من ملف اكسل من خلال تمرير رابط ملف الاكسل واسم الورقة
         def remove_sheet(self, excel_file, sheet_name):
             wb = px.load_workbook(excel_file)
             if sheet_name in wb.sheetnames:
                 wb.remove(wb[sheet_name])
             wb.save(excel_file)
+        
 
-        # ازالة الحشو من المحتوى
+
+       # وظيفة لحذف تكرار المحتوى بسبب عملية جرف المحتوى
         def rmove_duplecte_contatint(self,data_frame):
+            """
+            تمرير وسيط داتا فريم
+            تعيد بيانات فريم بعد إزالة التكرارات الكبيرة في النصوص
+
+            لماذا تم استخدام هذه الوظيفة:
+
+            بسبب ان معظم المواقع اثناء جرف المحتوى تقوم بتكرير عبارات ضمن كل خبر مثل اعلانات او تعليقات او عناوين اخبار اخرى
+            وهذه النصوص تعتبر حشو لا لزمة له
+            
+            """
             final_data = pd.DataFrame(data_frame)
+
+
+            # وظيفة للعثور على الجزء المشترك بين نصين
             def find_common_part(text1, text2):
+                """
+                1-matcher  يستخدم مكتبة SequenceMatcher للعثور على الجزء المشترك بين نصين
+                2- إذا كان حجم الجزء المشترك أكبر من 100 حرف، يتم إرجاع هذا الجزء
+                3- إذا لم يكن هناك جزء مشترك كبير، يتم إرجاع None
+                 هذه الوظيفة تستخدم في معالجة النصوص للتخلص من التكرارات الكبيرة
+                """
                 matcher = SequenceMatcher(None, text1, text2)
                 match = matcher.find_longest_match(0, len(text1), 0, len(text2))
                 if match.size > 100:
@@ -31,6 +60,14 @@ class SaveResults_Excel:
                 else:
                     return None
             try:
+                """
+                حلقة لتكرار كل صف في الداتا فريم ومقارنة النصوص
+                1- يتم استخدام find_common_part للعثور على الجزء المشترك بين النصوص
+                2- إذا كان هناك جزء مشترك، يتم استبداله بمسافة فارغة في النصوص الأخرى
+                3- يتم تقليم النصوص إلى 32000 حرف بعد إزالة الأجزاء المشتركة
+                4- هذا يساعد في تقليل التكرارات الكبيرة في النصوص
+                5- يتم استخدام try-except للتعامل مع أي استثناءات قد تحدث أثناء العملية
+                """
                 for index_, row_ in final_data.iterrows():
                     current_text = row_['content_text']
                     for index, row in final_data.iterrows():
@@ -48,7 +85,9 @@ class SaveResults_Excel:
             return final_data
         
 
-        # انشاء جدول في ملف اكسل
+
+
+       #وظيفة انشاء تنسيق جدول للبيانات التي تم اضافتها الى ملف الاكسل
         def create_table(self,table_name, worksheet):
                 table_style ='TableStyleMedium18'
                 table = px.worksheet.table.Table(displayName=table_name, ref=worksheet.dimensions)
@@ -56,6 +95,8 @@ class SaveResults_Excel:
                 showLastColumn=False, showRowStripes=True, showColumnStripes=False)
                 worksheet.add_table(table)
 
+
+        #وظيفة حفظ المخرجات الى ملف اكسل
         def save_result(self, dataframe=[], folder_path=None):
             empty_df = pd.DataFrame()
             self.son_folder = f'{folder_path}\Result {self.date_time}'
