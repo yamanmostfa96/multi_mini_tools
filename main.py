@@ -6,10 +6,11 @@ import datetime
 
 
 
-
-
-
-
+from Modules.ConvertExcelToJson import ConverterToJson
+from Modules.ConvertExcelToPdf import ConverterXlsPdf
+from Modules.FilesTracker import FilesTracker
+from Modules.ExcelDfSplitter import ExcellSplitter
+from SyriaNews.Face import news
 
 
 class APP(ctk.CTk): # واجهة التطبيق الرئيسية
@@ -129,23 +130,23 @@ class APP(ctk.CTk): # واجهة التطبيق الرئيسية
             self.current_frame.pack_forget()
 
         if selection == "Excel to JSON":
-            from Modules.ConvertExcelToJson import ConverterToJson
+            
             self.current_frame = ConverterToJson(self.root_frame)
 
         if selection =="Excel Folder to PDF":
-            from Modules.ConvertExcelToPdf import ConverterXlsPdf
+            
             self.current_frame = ConverterXlsPdf(self.root_frame)
 
         if selection =="Track my Files":
-            from Modules.FilesTracker import FilesTracker
+            
             self.current_frame=FilesTracker(self.root_frame)
 
         if selection=='Split Excel File':
-            from Modules.ExcelDfSplitter import ExcellSplitter
+            
             self.current_frame=ExcellSplitter(self.root_frame)
 
         if selection =="Syria News":
-            from SyriaNews.Face import news
+            
             self.current_frame=news(self.root_frame)
      
         """if selection =="spellout Arabic Number":

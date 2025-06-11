@@ -56,17 +56,30 @@ class ExcellSplitter(ctk.CTkScrollableFrame):
                      anchor='ne', compound='left',justify='left' ).grid(row=0, column=2, pady=2, padx=0)
 
 
-        self.column_name=ctk.CTkComboBox(self.data_sheet_frame, values=[], width=200, justify='left')
+        self.column_name=ctk.CTkComboBox(self.data_sheet_frame, values=[], width=200, justify='left',
+                                          command=self.update_count_files_in_screen)
         self.column_name.grid(row=0, column=3, pady=2)
+
+
+
+        self.total_file_to_create=ctk.CTkLabel(self.data_sheet_frame, text='',
+                     width=100,font=('Segoe UI Semibold',14),
+                     anchor='ne', compound='left',justify='left')
+        self.total_file_to_create.grid(row=0, column=5, pady=2)
 
 
         self.Split_and_save_results_btn=ctk.CTkButton(self.data_sheet_frame, text="Split and Save Results",
                                                       font=('Segoe UI Semibold',14),fg_color='green',
                                                       command=self.save_results, width=300, height=20)
-        self.Split_and_save_results_btn.grid(row=0, column=5, pady=2, padx=20)
+        self.Split_and_save_results_btn.grid(row=0, column=6, pady=2, padx=20)
 
         
-       
+
+    def update_count_files_in_screen(self, col=None):
+
+        self.count_files_to_sp = self.general_data_frame[self.column_name.get()].unique().tolist()
+        self.total_file_to_create.configure(text=f'{len(self.count_files_to_sp)} Files ')
+
 
     
 # operations functions:___  العمليات على البيانات  _____________
@@ -127,6 +140,9 @@ class ExcellSplitter(ctk.CTkScrollableFrame):
             self.column_name.configure(values=columns_list)
             self.column_name.set(columns_list[0])
 
+            self.count_files_to_sp = self.general_data_frame[columns_list[0]].unique().tolist()
+            
+
             if not self.datasheet:
                     self.datasheet = tb(self,dataframe=self.general_data_frame,with_filter=0,
                                         with_sorter=0, with_index=1,on_update_callback=0)
@@ -134,6 +150,8 @@ class ExcellSplitter(ctk.CTkScrollableFrame):
             self.datasheet.data=self.general_data_frame.copy()
             self.datasheet.load_data()
             self.datasheet.pack(side='top',fill="x", padx=5,pady=5,anchor='n')
+
+            self.total_file_to_create.configure(text=f'{len(self.count_files_to_sp)}  Files ')
    
         except Exception as e:
            messagebox.showerror('Error', f'حصل الخطأ التالي: {e}')
