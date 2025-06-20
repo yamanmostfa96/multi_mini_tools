@@ -61,7 +61,6 @@ class ExcellSplitter(ctk.CTkScrollableFrame):
         self.column_name.grid(row=0, column=3, pady=2)
 
 
-
         self.total_file_to_create=ctk.CTkLabel(self.data_sheet_frame, text='',
                      width=100,font=('Segoe UI Semibold',14),
                      anchor='ne', compound='left',justify='left')

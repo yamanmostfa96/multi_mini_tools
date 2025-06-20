@@ -311,15 +311,20 @@ class FilesTracker(ctk.CTkScrollableFrame):
             file_path = urllib.parse.unquote(file_path)
             file_name = os.path.basename(file_path)
             name, extension = os.path.splitext(file_name)
+
             if extension.lower() == '.docx' or extension.lower() =='.doc':
+
                 target_path = os.path.join(target_folder, f"{name}.pdf") 
+                
                 counter = 1
                 while os.path.exists(target_path):
                     target_path = os.path.join(target_folder, f"{name}_{counter}.pdf")
                     counter += 1  
                 try:
                     self.information_progress.configure(text=f'File Name: {file_name}\n {index+1} Out of {total_files}')
+                    
                     self.convert_single_doc_to_pdf(file_path, target_path)
+                    
                 except Exception as e:
                     print(f"Error converting {file_name}: {e}")
             self.progress_bar['value'] = (index + 1) / total_files * 100
